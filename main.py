@@ -9,10 +9,18 @@ JOKE = (
 )
 
 
+def render() -> str:
+    """Return the joke, checked against the entry gate (1-280 code points)."""
+    text = JOKE.strip()
+    if not text or len(text) > 280:
+        raise ValueError(f"entry fails the gate: {len(text)} code points")
+    return text
+
+
 def main() -> None:
     out_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
     out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / "entry.txt").write_text(JOKE, encoding="utf-8")
+    (out_dir / "entry.txt").write_text(render(), encoding="utf-8")
 
 
 if __name__ == "__main__":
